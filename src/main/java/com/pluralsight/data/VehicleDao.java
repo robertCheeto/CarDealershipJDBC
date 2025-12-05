@@ -17,11 +17,11 @@ public class VehicleDao {
         this.dataManager = dataManager;
     }
 
-    public List<Vehicle> getVehiclesByPriceRange(int minPrice, int maxPrice){
+    public List<Vehicle> getVehiclesByPriceRange(double minPrice, double maxPrice){
         List<Vehicle> vehiclesByPrice = new ArrayList<>();
 
         String query = "SELECT " +
-                "vin, make, model, mileage, price, sold " +
+                "vin, make, model, vehicle_type, color, odometer, price, sold " +
                 "FROM vehicles " +
                 "WHERE price BETWEEN ? AND ? " +
                 "ORDER BY PRICE;";
@@ -35,14 +35,17 @@ public class VehicleDao {
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        int VIN = resultSet.getInt("vin");
+                        String vin = resultSet.getString("vin");
+                        int year = resultSet.getInt("year");
                         String make = resultSet.getString("make");
                         String model = resultSet.getString("model");
-                        int mileage = resultSet.getInt("mileage");
+                        String vehicleType = resultSet.getString("vehicle_type");
+                        String color = resultSet.getString("color");
+                        int odometer = resultSet.getInt("odometer");
                         double price = resultSet.getDouble("price");
-                        String sold = resultSet.getString("sold");
+                        int sold = resultSet.getInt("sold");
 
-                        vehiclesByPrice.add(new Vehicle(VIN, make, model, mileage, price, sold));
+                        vehiclesByPrice.add(new Vehicle(vin, year, make, model, vehicleType, color, odometer, price, sold));
                     }
                 }
             }
@@ -71,14 +74,17 @@ public class VehicleDao {
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        int vin = resultSet.getInt("VIN");
+                        String vin = resultSet.getString("vin");
+                        int year = resultSet.getInt("year");
                         String make = resultSet.getString("make");
                         String model = resultSet.getString("model");
-                        int mileage = resultSet.getInt("mileage");
+                        String vehicleType = resultSet.getString("vehicle_type");
+                        String color = resultSet.getString("color");
+                        int odometer = resultSet.getInt("odometer");
                         double price = resultSet.getDouble("price");
-                        String sold = resultSet.getString("sold");
+                        int sold = resultSet.getInt("sold");
 
-                        vehiclesByMakeModel.add(new Vehicle(vin, make, model, mileage, price, sold));
+                        vehiclesByMakeModel.add(new Vehicle(vin, year, make, model, vehicleType, color, odometer, price, sold));
                     }
                 }
             }
@@ -107,14 +113,17 @@ public class VehicleDao {
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        int VIN = resultSet.getInt("vin");
+                        String vin = resultSet.getString("vin");
+                        int year = resultSet.getInt("year");
                         String make = resultSet.getString("make");
                         String model = resultSet.getString("model");
-                        int mileage = resultSet.getInt("mileage");
+                        String vehicleType = resultSet.getString("vehicle_type");
+                        String color = resultSet.getString("color");
+                        int odometer = resultSet.getInt("odometer");
                         double price = resultSet.getDouble("price");
-                        String sold = resultSet.getString("sold");
+                        int sold = resultSet.getInt("sold");
 
-                        vehiclesByMileage.add(new Vehicle(VIN, make, model, mileage, price, sold));
+                        vehiclesByMileage.add(new Vehicle(vin, year, make, model, vehicleType, color, odometer, price, sold));
                     }
                 }
             }
@@ -122,6 +131,27 @@ public class VehicleDao {
             System.err.println("Error getting Vehicles within Mileage range: " + e.getMessage());
         }
         return vehiclesByMileage;
+    }
+
+    public List<Vehicle> getVehicleByYearRange(int minYear, int maxYear){
+        List<Vehicle> vehiclesByYear = new ArrayList<>();
+
+        String query = "SELECT " +
+                "vin, " +
+                "    make,\n" +
+                "    model,\n" +
+                "    year,\n" +
+                "    vehicle_type,\n" +
+                "    color,\n" +
+                "    odometer,\n" +
+                "    price,\n" +
+                "    sold\n" +
+                "FROM\n" +
+                "\tvehicles\n" +
+                "WHERE year BETWEEN 1980 AND 2020\n" +
+                "ORDER BY year DESC";
+
+        return vehiclesByYear;
     }
 
     public List<Vehicle> getAvailableVehicles(){
@@ -140,14 +170,17 @@ public class VehicleDao {
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        int VIN = resultSet.getInt("vin");
+                        String vin = resultSet.getString("vin");
+                        int year = resultSet.getInt("year");
                         String make = resultSet.getString("make");
                         String model = resultSet.getString("model");
-                        int mileage = resultSet.getInt("mileage");
+                        String vehicleType = resultSet.getString("vehicle_type");
+                        String color = resultSet.getString("color");
+                        int odometer = resultSet.getInt("odometer");
                         double price = resultSet.getDouble("price");
-                        String sold = resultSet.getString("sold");
+                        int sold = resultSet.getInt("sold");
 
-                        availableVehicles.add(new Vehicle(VIN, make, model, mileage, price, sold));
+                        availableVehicles.add(new Vehicle(vin, year, make, model, vehicleType, color, odometer, price, sold));
                     }
                 }
             }
