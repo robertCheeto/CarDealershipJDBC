@@ -172,6 +172,80 @@ public class VehicleDao {
         return vehiclesByYear;
     }
 
+    public List<Vehicle> getVehicleByColor(String vColor){
+        List<Vehicle> vehiclesByColor = new ArrayList<>();
+
+        String query = "SELECT " +
+                "vin, year, make, model, vehicle_type, color, odometer, price, sold " +
+                " FROM " +
+                "vehicles " +
+                " WHERE color LIKE ? ";
+
+        try {
+            Connection connection = dataManager.getConnection();
+
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, "%" + vColor + "%");
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String vin = resultSet.getString("vin");
+                        int year = resultSet.getInt("year");
+                        String make = resultSet.getString("make");
+                        String model = resultSet.getString("model");
+                        String vehicleType = resultSet.getString("vehicle_type");
+                        String color = resultSet.getString("color");
+                        int odometer = resultSet.getInt("odometer");
+                        double price = resultSet.getDouble("price");
+                        int sold = resultSet.getInt("sold");
+
+                        vehiclesByColor.add(new Vehicle(vin, year, make, model, vehicleType, color, odometer, price, sold));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting Vehicles from Color Search: " + e.getMessage());
+        }
+        return  vehiclesByColor;
+    }
+
+    public List<Vehicle> getVehicleByType(String vType){
+        List<Vehicle> vehiclesByType = new ArrayList<>();
+
+        String query = "SELECT " +
+                "vin, year, make, model, vehicle_type, color, odometer, price, sold " +
+                " FROM " +
+                "vehicles " +
+                " WHERE vehicle_type LIKE ? ";
+
+        try {
+            Connection connection = dataManager.getConnection();
+
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, "%" + vType + "%");
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String vin = resultSet.getString("vin");
+                        int year = resultSet.getInt("year");
+                        String make = resultSet.getString("make");
+                        String model = resultSet.getString("model");
+                        String vehicleType = resultSet.getString("vehicle_type");
+                        String color = resultSet.getString("color");
+                        int odometer = resultSet.getInt("odometer");
+                        double price = resultSet.getDouble("price");
+                        int sold = resultSet.getInt("sold");
+
+                        vehiclesByType.add(new Vehicle(vin, year, make, model, vehicleType, color, odometer, price, sold));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting Vehicles from Color Search: " + e.getMessage());
+        }
+        return  vehiclesByType;
+    }
+
     public List<Vehicle> getAvailableVehicles(){
         List<Vehicle> availableVehicles = new ArrayList<>();
 
