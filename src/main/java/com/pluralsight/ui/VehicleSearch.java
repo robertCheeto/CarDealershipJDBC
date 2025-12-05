@@ -43,8 +43,8 @@ public class VehicleSearch {
     private void searchPrice(){
         System.out.println("Loading Search by Price...");
 
-        int minPrice = ConsoleUtil.getIntFromUser("Enter minimum price: $", 1);
-        int maxPrice = ConsoleUtil.getIntFromUser("Enter maximum price: $", 100000000);
+        int minPrice = ConsoleUtil.getIntFromUser("Enter minimum price: $");
+        int maxPrice = ConsoleUtil.getIntFromUser("Enter maximum price: $");
 
         List<Vehicle> priceRange = vehicleDao.getVehiclesByPriceRange(minPrice, maxPrice);
 
@@ -80,5 +80,9 @@ public class VehicleSearch {
         }
     }
 
+    private void searchByMileage(){
+        System.out.println("Loading Search By Mileage");
+
+    }
 
 }
