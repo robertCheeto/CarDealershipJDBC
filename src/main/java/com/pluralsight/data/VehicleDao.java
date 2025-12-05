@@ -21,7 +21,7 @@ public class VehicleDao {
         List<Vehicle> vehiclesByPrice = new ArrayList<>();
 
         String query = "SELECT " +
-                "vin, make, model, vehicle_type, color, odometer, price, sold " +
+                "vin, year, make, model, vehicle_type, color, odometer, price, sold " +
                 "FROM vehicles " +
                 "WHERE price BETWEEN ? AND ? " +
                 "ORDER BY PRICE;";
@@ -59,7 +59,7 @@ public class VehicleDao {
         List<Vehicle> vehiclesByMakeModel = new ArrayList<>();
 
         String query = "SELECT " +
-                "VIN, make, model, mileage, price, sold " +
+                "vin, year, make, model, vehicle_type, color, odometer, price, sold " +
                 "FROM " +
                 "vehicles " +
                 "WHERE make LIKE ? OR model LIKE ? " +
@@ -98,11 +98,11 @@ public class VehicleDao {
         List<Vehicle> vehiclesByMileage = new ArrayList<>();
 
         String query = "SELECT " +
-                "vin, make, model, mileage, price, sold " +
+                "vin, year, make, model, vehicle_type, color, odometer, price, sold " +
                 "FROM " +
                 "vehicles " +
-                "WHERE mileage BETWEEN ? AND ? " +
-                "ORDER BY mileage;";
+                "WHERE odometer BETWEEN ? AND ? " +
+                "ORDER BY odometer;";
 
         try {
             Connection connection = dataManager.getConnection();
@@ -137,20 +137,38 @@ public class VehicleDao {
         List<Vehicle> vehiclesByYear = new ArrayList<>();
 
         String query = "SELECT " +
-                "vin, " +
-                "    make,\n" +
-                "    model,\n" +
-                "    year,\n" +
-                "    vehicle_type,\n" +
-                "    color,\n" +
-                "    odometer,\n" +
-                "    price,\n" +
-                "    sold\n" +
-                "FROM\n" +
-                "\tvehicles\n" +
-                "WHERE year BETWEEN 1980 AND 2020\n" +
+                "vin, year, make, model, vehicle_type, color, odometer, price, sold " +
+                "FROM " +
+                "vehicles " +
+                "WHERE year BETWEEN ? AND ? " +
                 "ORDER BY year DESC";
 
+        try {
+            Connection connection = dataManager.getConnection();
+
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setDouble(1, minYear);
+                statement.setDouble(2, maxYear);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String vin = resultSet.getString("vin");
+                        int year = resultSet.getInt("year");
+                        String make = resultSet.getString("make");
+                        String model = resultSet.getString("model");
+                        String vehicleType = resultSet.getString("vehicle_type");
+                        String color = resultSet.getString("color");
+                        int odometer = resultSet.getInt("odometer");
+                        double price = resultSet.getDouble("price");
+                        int sold = resultSet.getInt("sold");
+
+                        vehiclesByYear.add(new Vehicle(vin, year, make, model, vehicleType, color, odometer, price, sold));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting Vehicles within Mileage range: " + e.getMessage());
+        }
         return vehiclesByYear;
     }
 
