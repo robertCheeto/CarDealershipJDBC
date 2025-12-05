@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import com.pluralsight.config.DatabaseConfig;
 import com.pluralsight.data.DataManager;
+import com.pluralsight.ui.HomeScreen;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,7 +15,9 @@ public class Main {
 
             // add Daos here
 
-            // add homescreen display here
+            HomeScreen homeScreen = new HomeScreen();
+
+            homeScreen.displayHomeScreen();
 
 
         } catch (Exception e) {
