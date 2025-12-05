@@ -17,13 +17,13 @@ public class VehicleDao {
         this.dataManager = dataManager;
     }
 
-    public List<Vehicle> getVehiclesByPriceRange(double minPrice, double maxPrice){
+    public List<Vehicle> getVehiclesByPriceRange(int minPrice, int maxPrice){
         List<Vehicle> vehiclesByPrice = new ArrayList<>();
 
-        String query = "SELECT" +
+        String query = "SELECT " +
                 "vin, make, model, mileage, price, sold " +
                 "FROM vehicles " +
-                "WHERE price BETWEEN ? AND ?" +
+                "WHERE price BETWEEN ? AND ? " +
                 "ORDER BY PRICE;";
 
         try {
