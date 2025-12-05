@@ -25,11 +25,11 @@ public class ConsoleUtil {
         }
     }
 
-    public static int getIntFromUser(String prompt, int value){
+    public static int getIntFromUser(String prompt){
         while (true) {
-            System.out.println(prompt);
+            System.out.print(prompt);
             try {
-                int num = keyboard.nextInt(value);
+                int num = keyboard.nextInt();
                 keyboard.nextLine();
                 return num;
             } catch (InputMismatchException e) {
