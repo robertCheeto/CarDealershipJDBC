@@ -1,7 +1,10 @@
 package com.pluralsight.ui;
 
 import com.pluralsight.data.VehicleDao;
+import com.pluralsight.models.Vehicle;
 import com.pluralsight.utilities.ConsoleUtil;
+
+import java.util.List;
 
 public class VehicleSearch {
     private final VehicleDao vehicleDao;
@@ -18,9 +21,9 @@ public class VehicleSearch {
 
             switch (userChoice){
                 case 1 -> searchPrice();
-                case 2 -> searchMakeModel();
-                case 3 -> searchMileage();
-                case 4 -> availableVehicles();
+//                case 2 -> searchMakeModel();
+//                case 3 -> searchMileage();
+//                case 4 -> availableVehicles();
                 case 0 -> System.out.println("should return back to main menu...");
                 default -> System.out.println("Please enter a valid input.");
             }
@@ -38,8 +41,23 @@ public class VehicleSearch {
     }
 
     private void searchPrice(){
+        System.out.println("Loading Search by Price...");
 
+        int minPrice = ConsoleUtil.getIntFromUser("Enter minimum price: $", minPrice);
+        int maxPrice = ConsoleUtil.getIntFromUser("Enter maximum price: $", maxPrice);
 
+        List<Vehicle> priceRange = vehicleDao.getVehiclesByPriceRange(minPrice, maxPrice);
+
+        if (priceRange.isEmpty()){
+            System.out.printf("\nNo vehicles within the price range of $d - $%d", minPrice, maxPrice);
+        }
+        else {
+            System.out.println("\nFound " + priceRange.size() + " vehicles!");
+            System.out.println("\n\nVehicles");
+            for (Vehicle vehicle : priceRange) {
+                System.out.println(vehicle);
+            }
+        }
     }
 
 
