@@ -16,7 +16,6 @@ public class Main {
             dataManager = new DataManager();
 
             VehicleDao vehicleDao = new VehicleDao(dataManager);
-            // add Daos here
 
             VehicleSearch vehicleSearch = new VehicleSearch(vehicleDao);
 

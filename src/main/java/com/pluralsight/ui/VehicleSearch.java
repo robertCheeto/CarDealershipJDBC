@@ -15,6 +15,7 @@ public class VehicleSearch {
 
     public void display(){
         boolean isRunning = true;
+
         while (isRunning) {
             displayMenu();
             int userChoice = ConsoleUtil.getIntInRange("Select an option: ",0 , 7);
@@ -27,7 +28,7 @@ public class VehicleSearch {
                 case 5 -> searchColor();
                 case 6 -> searchVehicleType();
                 case 7 -> availableVehicles();
-                case 0 -> System.out.println("should return back to main menu...");
+                case 0 -> System.out.println("add home screen option here");
                 default -> System.out.println("Please enter a valid input.");
             }
         }
