@@ -4,8 +4,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Properties;
 
 public class DatabaseConfig {
@@ -38,5 +36,15 @@ public class DatabaseConfig {
             props.load(fis);
         }
         return props;
+    }
+
+    public static void closeDataSource(){
+        if (dataSource != null){
+            try {
+                dataSource.close();
+            } catch (Exception e) {
+                System.err.println("Error closing data source: " + e.getMessage());
+            }
+        }
     }
 }
