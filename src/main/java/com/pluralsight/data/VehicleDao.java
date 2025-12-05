@@ -88,6 +88,73 @@ public class VehicleDao {
         return  vehiclesByMakeModel;
     }
 
+    public List<Vehicle> getVehicleByMileage(double minMiles, double maxMiles){
+        List<Vehicle> vehiclesByMileage = new ArrayList<>();
 
+        String query = "SELECT " +
+                "vin, make, model, mileage, price, sold " +
+                "FROM " +
+                "vehicles " +
+                "WHERE mileage BETWEEN ? AND ? " +
+                "ORDER BY mileage;";
+
+        try {
+            Connection connection = dataManager.getConnection();
+
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setDouble(1, minMiles);
+                statement.setDouble(2, maxMiles);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int VIN = resultSet.getInt("VIN");
+                        String make = resultSet.getString("make");
+                        String model = resultSet.getString("model");
+                        int mileage = resultSet.getInt("mileage");
+                        double price = resultSet.getDouble("price");
+                        String sold = resultSet.getString("sold");
+
+                        vehiclesByMileage.add(new Vehicle(VIN, make, model, mileage, price, sold));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting Vehicles within price range: " + e.getMessage());
+        }
+        return vehiclesByMileage;
+    }
+
+    public List<Vehicle> getAvailableVehicles(){
+        List<Vehicle> availableVehicles = new ArrayList<>();
+
+        String query = "SELECT " +
+                "vin, make, model, mileage, price, sold " +
+                "FROM " +
+                "vehicles " +
+                "WHERE sold = \"n\"";
+
+        try {
+            Connection connection = dataManager.getConnection();
+
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int VIN = resultSet.getInt("VIN");
+                        String make = resultSet.getString("make");
+                        String model = resultSet.getString("model");
+                        int mileage = resultSet.getInt("mileage");
+                        double price = resultSet.getDouble("price");
+                        String sold = resultSet.getString("sold");
+
+                        availableVehicles.add(new Vehicle(VIN, make, model, mileage, price, sold));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting Vehicles within price range: " + e.getMessage());
+        }
+        return availableVehicles;
+    }
 
 }
