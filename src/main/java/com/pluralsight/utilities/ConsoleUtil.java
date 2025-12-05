@@ -25,6 +25,20 @@ public class ConsoleUtil {
         }
     }
 
+    public static double getDoubleFromUser(String prompt){
+        while (true) {
+            System.out.println(prompt);
+            try {
+                double num = keyboard.nextDouble();
+                keyboard.nextLine();
+                return num;
+            } catch (InputMismatchException e) {
+                keyboard.nextLine();
+                return INVALID_INPUT;
+            }
+        }
+    }
+
     public static int getIntFromUser(String prompt){
         while (true) {
             System.out.print(prompt);
