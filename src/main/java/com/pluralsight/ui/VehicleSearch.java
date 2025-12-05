@@ -17,13 +17,16 @@ public class VehicleSearch {
         boolean isRunning = true;
         while (isRunning) {
             displayMenu();
-            int userChoice = ConsoleUtil.getIntInRange("Select an option: ",0 , 4);
+            int userChoice = ConsoleUtil.getIntInRange("Select an option: ",0 , 7);
 
             switch (userChoice){
                 case 1 -> searchPrice();
                 case 2 -> searchMakeModel();
                 case 3 -> searchMileage();
-                case 4 -> availableVehicles();
+                case 4 -> searchYear();
+                case 5 -> searchColor();
+                case 6 -> searchVehicleType();
+                case 7 -> availableVehicles();
                 case 0 -> System.out.println("should return back to main menu...");
                 default -> System.out.println("Please enter a valid input.");
             }
@@ -34,7 +37,10 @@ public class VehicleSearch {
         System.out.println("1. Search Vehicles by Price Range");
         System.out.println("2. Search Vehicles by Make/Model");
         System.out.println("3. Search Vehicles by Mileage");
-        System.out.println("4. Get Available Vehicles");
+        System.out.println("4. Search Vehicles by Year Range");
+        System.out.println("5. Search Vehicles by Color");
+        System.out.println("6. Search Vehicles by Type");
+        System.out.println("7. Get Available Vehicles");
         System.out.println("0. Back to main menu");
         System.out.print("Input choice here: ");
     }
@@ -52,7 +58,7 @@ public class VehicleSearch {
         }
         else {
             System.out.println("\nFound " + priceRange.size() + " vehicles!");
-            System.out.println("\n\nVehicles");
+            System.out.println("\nVehicles");
             for (Vehicle vehicle : priceRange) {
                 System.out.println(vehicle);
             }
@@ -72,7 +78,7 @@ public class VehicleSearch {
         }
         else {
             System.out.println("\nFound " + makeModel.size() + " vehicles that match!");
-            System.out.println("\n\n");
+            System.out.println("\nVehicles:");
             for (Vehicle vehicle : makeModel) {
                 System.out.println(vehicle);
             }
@@ -92,11 +98,39 @@ public class VehicleSearch {
         }
         else {
             System.out.println("\nFound " + milesRange.size() + " vehicles!");
-            System.out.println("\n\nVehicles");
+            System.out.println("\nVehicles");
             for (Vehicle vehicle : milesRange) {
                 System.out.println(vehicle);
             }
         }
+    }
+
+    private void searchYear(){
+        System.out.println("Loading Search By Year");
+
+        int minYear = ConsoleUtil.getIntFromUser("Enter minimum year: ");
+        int maxYear = ConsoleUtil.getIntFromUser("Enter maximum year: ");
+
+        List<Vehicle> yearRange = vehicleDao.getVehicleByYearRange(minYear, maxYear);
+
+        if (yearRange.isEmpty()){
+            System.out.printf("\nNo vehicles made between %d and %d available", minYear, maxYear);
+        }
+        else {
+            System.out.println("\nFound " + yearRange.size() + " vehicles!");
+            System.out.println("\nVehicles");
+            for (Vehicle vehicle : yearRange) {
+                System.out.println(vehicle);
+            }
+        }
+    }
+
+    private void searchColor(){
+
+    }
+
+    private void searchVehicleType(){
+
     }
 
     private void availableVehicles(){
