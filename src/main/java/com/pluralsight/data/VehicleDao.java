@@ -250,10 +250,10 @@ public class VehicleDao {
         List<Vehicle> availableVehicles = new ArrayList<>();
 
         String query = "SELECT " +
-                "vin, make, model, mileage, price, sold " +
+                "vin, year, make, model, vehicle_type, color, odometer, price, sold " +
                 "FROM " +
                 "vehicles " +
-                "WHERE sold = \"n\"";
+                "WHERE sold = 0";
 
         try {
             Connection connection = dataManager.getConnection();
