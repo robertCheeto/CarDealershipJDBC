@@ -21,7 +21,7 @@ public class VehicleDao {
         List<Vehicle> vehiclesByPrice = new ArrayList<>();
 
         String query = "SELECT" +
-                "VIN, make, model, mileage, price, sold " +
+                "vin, make, model, mileage, price, sold " +
                 "FROM vehicles " +
                 "WHERE price BETWEEN ? AND ?" +
                 "ORDER BY PRICE;";
@@ -35,7 +35,7 @@ public class VehicleDao {
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        int VIN = resultSet.getInt("VIN");
+                        int VIN = resultSet.getInt("vin");
                         String make = resultSet.getString("make");
                         String model = resultSet.getString("model");
                         int mileage = resultSet.getInt("mileage");
@@ -56,10 +56,10 @@ public class VehicleDao {
         List<Vehicle> vehiclesByMakeModel = new ArrayList<>();
 
         String query = "SELECT " +
-                "vin, make, model, mileage, price, sold" +
+                "VIN, make, model, mileage, price, sold " +
                 "FROM " +
-                " vehicles " +
-                "WHERE make LIKE ? AND model LIKE ? " +
+                "vehicles " +
+                "WHERE make LIKE ? OR model LIKE ? " +
                 "ORDER BY make";
 
         try {
@@ -71,19 +71,19 @@ public class VehicleDao {
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        int VIN = resultSet.getInt("VIN");
+                        int vin = resultSet.getInt("VIN");
                         String make = resultSet.getString("make");
                         String model = resultSet.getString("model");
                         int mileage = resultSet.getInt("mileage");
                         double price = resultSet.getDouble("price");
                         String sold = resultSet.getString("sold");
 
-                        vehiclesByMakeModel.add(new Vehicle(VIN, make, model, mileage, price, sold));
+                        vehiclesByMakeModel.add(new Vehicle(vin, make, model, mileage, price, sold));
                     }
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error getting Vehicles within price range: " + e.getMessage());
+            System.err.println("Error getting Vehicles from Make and Model Search: " + e.getMessage());
         }
         return  vehiclesByMakeModel;
     }
@@ -107,7 +107,7 @@ public class VehicleDao {
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        int VIN = resultSet.getInt("VIN");
+                        int VIN = resultSet.getInt("vin");
                         String make = resultSet.getString("make");
                         String model = resultSet.getString("model");
                         int mileage = resultSet.getInt("mileage");
@@ -119,7 +119,7 @@ public class VehicleDao {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error getting Vehicles within price range: " + e.getMessage());
+            System.err.println("Error getting Vehicles within Mileage range: " + e.getMessage());
         }
         return vehiclesByMileage;
     }
@@ -140,7 +140,7 @@ public class VehicleDao {
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        int VIN = resultSet.getInt("VIN");
+                        int VIN = resultSet.getInt("vin");
                         String make = resultSet.getString("make");
                         String model = resultSet.getString("model");
                         int mileage = resultSet.getInt("mileage");
@@ -152,7 +152,7 @@ public class VehicleDao {
                 }
             }
         } catch (SQLException e) {
-            System.err.println("Error getting Vehicles within price range: " + e.getMessage());
+            System.err.println("Error getting Available Vehicles: " + e.getMessage());
         }
         return availableVehicles;
     }
