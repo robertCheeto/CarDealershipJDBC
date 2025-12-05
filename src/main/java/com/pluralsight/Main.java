@@ -2,6 +2,7 @@ package com.pluralsight;
 
 import com.pluralsight.config.DatabaseConfig;
 import com.pluralsight.data.DataManager;
+import com.pluralsight.data.VehicleDao;
 import com.pluralsight.ui.HomeScreen;
 
 public class Main {
@@ -13,6 +14,7 @@ public class Main {
         try {
             dataManager = new DataManager();
 
+            VehicleDao vehicleDao = new VehicleDao(dataManager);
             // add Daos here
 
             HomeScreen homeScreen = new HomeScreen();
