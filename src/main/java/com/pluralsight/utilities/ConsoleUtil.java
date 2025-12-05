@@ -1,9 +1,11 @@
 package com.pluralsight.utilities;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ConsoleUtil {
     private static final Scanner keyboard = new Scanner(System.in);
+    private static final int INVALID_INPUT = -1;
 
     public static int getIntInRange(String prompt, int min, int max) {
         while (true) {
@@ -19,6 +21,20 @@ public class ConsoleUtil {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid number.");
+            }
+        }
+    }
+
+    public static int getIntFromUser(String prompt, int value){
+        while (true) {
+            System.out.println(prompt);
+            try {
+                int num = keyboard.nextInt(value);
+                keyboard.nextLine();
+                return num;
+            } catch (InputMismatchException e) {
+                keyboard.nextLine();
+                return INVALID_INPUT;
             }
         }
     }
@@ -55,5 +71,11 @@ public class ConsoleUtil {
                 System.out.println();
             }
         }
+    }
+
+    public static void exitProgram() {
+        System.out.println("Program shutting down...");
+        keyboard.close();
+        System.exit(0);
     }
 }
