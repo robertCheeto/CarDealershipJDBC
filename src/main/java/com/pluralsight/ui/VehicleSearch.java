@@ -126,11 +126,41 @@ public class VehicleSearch {
     }
 
     private void searchColor(){
+        System.out.println("Loading Search By Color");
 
+        String color = ConsoleUtil.getNonEmptyString("Enter color: ");
+
+        List<Vehicle> colorList = vehicleDao.getVehicleByColor(color);
+
+        if (colorList.isEmpty()){
+            System.out.printf("\nNo more %s vehicles available!", color);
+        }
+        else {
+            System.out.println("\nFound " + colorList.size() + " vehicles!");
+            System.out.println("\nVehicles");
+            for (Vehicle vehicle : colorList) {
+                System.out.println(vehicle);
+            }
+        }
     }
 
     private void searchVehicleType(){
+        System.out.println("Loading Search By Class Type");
 
+        String type = ConsoleUtil.getNonEmptyString("Enter vehicle class type: ");
+
+        List<Vehicle> vehicleType = vehicleDao.getVehicleByType(type);
+
+        if (vehicleType.isEmpty()){
+            System.out.printf("\nNo more %ss available!", type);
+        }
+        else {
+            System.out.println("\nFound " + vehicleType.size() + " vehicles!");
+            System.out.println("\nVehicles");
+            for (Vehicle vehicle : vehicleType) {
+                System.out.println(vehicle);
+            }
+        }
     }
 
     private void availableVehicles(){
