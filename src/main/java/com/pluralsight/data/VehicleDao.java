@@ -88,7 +88,7 @@ public class VehicleDao {
         return  vehiclesByMakeModel;
     }
 
-    public List<Vehicle> getVehicleByMileage(double minMiles, double maxMiles){
+    public List<Vehicle> getVehicleByMileage(int minMiles, int maxMiles){
         List<Vehicle> vehiclesByMileage = new ArrayList<>();
 
         String query = "SELECT " +
