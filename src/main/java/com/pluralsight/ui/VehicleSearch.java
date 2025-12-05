@@ -22,7 +22,7 @@ public class VehicleSearch {
             switch (userChoice){
                 case 1 -> searchPrice();
                 case 2 -> searchMakeModel();
-//                case 3 -> searchMileage();
+                case 3 -> searchMileage();
 //                case 4 -> availableVehicles();
                 case 0 -> System.out.println("should return back to main menu...");
                 default -> System.out.println("Please enter a valid input.");
@@ -49,7 +49,7 @@ public class VehicleSearch {
         List<Vehicle> priceRange = vehicleDao.getVehiclesByPriceRange(minPrice, maxPrice);
 
         if (priceRange.isEmpty()){
-            System.out.printf("\nNo vehicles within the price range of $d - $%d", minPrice, maxPrice);
+            System.out.printf("\nNo vehicles within the price range of $%d - $%d", minPrice, maxPrice);
         }
         else {
             System.out.println("\nFound " + priceRange.size() + " vehicles!");
@@ -80,9 +80,24 @@ public class VehicleSearch {
         }
     }
 
-    private void searchByMileage(){
+    private void searchMileage(){
         System.out.println("Loading Search By Mileage");
 
+        int minMileage = ConsoleUtil.getIntFromUser("Enter minimum mileage: ");
+        int maxMileage = ConsoleUtil.getIntFromUser("Enter maximum mileage: ");
+
+        List<Vehicle> milesRange = vehicleDao.getVehicleByMileage(minMileage, maxMileage);
+
+        if (milesRange.isEmpty()){
+            System.out.printf("\nNo vehicles with mileage between %d and %d", minMileage, maxMileage);
+        }
+        else {
+            System.out.println("\nFound " + milesRange.size() + " vehicles!");
+            System.out.println("\n\nVehicles");
+            for (Vehicle vehicle : milesRange) {
+                System.out.println(vehicle);
+            }
+        }
     }
 
 }
