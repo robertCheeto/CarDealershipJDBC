@@ -52,4 +52,42 @@ public class VehicleDao {
         return vehiclesByPrice;
     }
 
+    public List<Vehicle> getVehicleByMakeModel (String vMake, String vModel){
+        List<Vehicle> vehiclesByMakeModel = new ArrayList<>();
+
+        String query = "SELECT " +
+                "vin, make, model, mileage, price, sold" +
+                "FROM " +
+                " vehicles " +
+                "WHERE make LIKE ? AND model LIKE ? " +
+                "ORDER BY make";
+
+        try {
+            Connection connection = dataManager.getConnection();
+
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, "%" + vMake + "%");
+                statement.setString(2, "%" + vModel + "%");
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        int VIN = resultSet.getInt("VIN");
+                        String make = resultSet.getString("make");
+                        String model = resultSet.getString("model");
+                        int mileage = resultSet.getInt("mileage");
+                        double price = resultSet.getDouble("price");
+                        String sold = resultSet.getString("sold");
+
+                        vehiclesByMakeModel.add(new Vehicle(VIN, make, model, mileage, price, sold));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error getting Vehicles within price range: " + e.getMessage());
+        }
+        return  vehiclesByMakeModel;
+    }
+
+
+
 }
