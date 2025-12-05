@@ -42,13 +42,13 @@ public class VehicleSearch {
     private void searchPrice(){
         System.out.println("Loading Search by Price...");
 
-        int minPrice = ConsoleUtil.getIntFromUser("Enter minimum price: $");
-        int maxPrice = ConsoleUtil.getIntFromUser("Enter maximum price: $");
+        double minPrice = ConsoleUtil.getDoubleFromUser("Enter minimum price: $");
+        double maxPrice = ConsoleUtil.getDoubleFromUser("Enter maximum price: $");
 
         List<Vehicle> priceRange = vehicleDao.getVehiclesByPriceRange(minPrice, maxPrice);
 
         if (priceRange.isEmpty()){
-            System.out.printf("\nNo vehicles within the price range of $%d - $%d", minPrice, maxPrice);
+            System.out.printf("\nNo vehicles within the price range of $%.2f - $%.2f", minPrice, maxPrice);
         }
         else {
             System.out.println("\nFound " + priceRange.size() + " vehicles!");
