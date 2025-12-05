@@ -23,11 +23,10 @@ public class VehicleSearch {
                 case 1 -> searchPrice();
                 case 2 -> searchMakeModel();
                 case 3 -> searchMileage();
-//                case 4 -> availableVehicles();
+                case 4 -> availableVehicles();
                 case 0 -> System.out.println("should return back to main menu...");
                 default -> System.out.println("Please enter a valid input.");
             }
-
         }
     }
 
@@ -95,6 +94,23 @@ public class VehicleSearch {
             System.out.println("\nFound " + milesRange.size() + " vehicles!");
             System.out.println("\n\nVehicles");
             for (Vehicle vehicle : milesRange) {
+                System.out.println(vehicle);
+            }
+        }
+    }
+
+    private void availableVehicles(){
+        System.out.println("Loading available vehicles...");
+
+        List<Vehicle> available = vehicleDao.getAvailableVehicles();
+
+        if (available.isEmpty()){
+            System.out.println("\nThere are no more vehicles available!");
+        }
+        else {
+            System.out.println("\nThere are " + available.size() + " vehicles available!");
+            System.out.println("\n\nVehicles:");
+            for (Vehicle vehicle : available){
                 System.out.println(vehicle);
             }
         }
