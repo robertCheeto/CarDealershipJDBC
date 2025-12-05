@@ -21,7 +21,7 @@ public class VehicleSearch {
 
             switch (userChoice){
                 case 1 -> searchPrice();
-//                case 2 -> searchMakeModel();
+                case 2 -> searchMakeModel();
 //                case 3 -> searchMileage();
 //                case 4 -> availableVehicles();
                 case 0 -> System.out.println("should return back to main menu...");
@@ -43,8 +43,8 @@ public class VehicleSearch {
     private void searchPrice(){
         System.out.println("Loading Search by Price...");
 
-        int minPrice = ConsoleUtil.getIntFromUser("Enter minimum price: $", minPrice);
-        int maxPrice = ConsoleUtil.getIntFromUser("Enter maximum price: $", maxPrice);
+        int minPrice = ConsoleUtil.getIntFromUser("Enter minimum price: $", 1);
+        int maxPrice = ConsoleUtil.getIntFromUser("Enter maximum price: $", 100000000);
 
         List<Vehicle> priceRange = vehicleDao.getVehiclesByPriceRange(minPrice, maxPrice);
 
@@ -55,6 +55,26 @@ public class VehicleSearch {
             System.out.println("\nFound " + priceRange.size() + " vehicles!");
             System.out.println("\n\nVehicles");
             for (Vehicle vehicle : priceRange) {
+                System.out.println(vehicle);
+            }
+        }
+    }
+
+    private void searchMakeModel(){
+        System.out.println("Loading Search By Make & Model...");
+
+        String vehicleMake = ConsoleUtil.getNonEmptyString("Enter vehicle make: ");
+        String vehicleModel = ConsoleUtil.getNonEmptyString("Enter vehicle model: ");
+
+        List<Vehicle> makeModel = vehicleDao.getVehicleByMakeModel(vehicleMake, vehicleModel);
+
+        if (makeModel.isEmpty()) {
+            System.out.println("\nNo vehicles in the inventory of Make: " + vehicleMake + " OR Model : " + vehicleModel);
+        }
+        else {
+            System.out.println("\nFound " + makeModel.size() + " vehicles that match!");
+            System.out.println("\n\n");
+            for (Vehicle vehicle : makeModel) {
                 System.out.println(vehicle);
             }
         }
